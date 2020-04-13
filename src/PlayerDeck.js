@@ -12,10 +12,10 @@ const PlayerDeck = () => (
     <Typography variant="h5" align='center'>
         Your Cards
     </Typography>
-    <Container>
+    <Container style={{ display: "flex", flexWrap: "wrap" }}>
         { AppData.playerCards[0].map(cardIdx =>
         {
-            return  <Card>
+            return  <Card style={{ margin: 5 }}>
                         <CardContent>
                             <Box display="flex" justifyContent="center">
                                 <div className={ `card-1024 card-1024-${AppData.getCard(cardIdx)}` }></div>
