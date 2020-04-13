@@ -1,0 +1,319 @@
+:root
+{
+    --card-background-image: url('1024px-English_pattern_playing_cards_deck_PLUS.svg.png');
+    --card-width: 73px;
+    --card-height: 108.5px;
+    --card-border-radius: 5px;
+    --card-1-row-background-position-y: -6px;
+    --card-2-row-background-position-y: -120px;
+    --card-3-row-background-position-y: -234px;
+    --card-4-row-background-position-y: -348px;
+}
+
+.card-1024
+{
+    background-image: var(--card-background-image);
+    width: var(--card-width);
+    height: var(--card-height);
+    border-radius: var(--card-border-radius);
+}
+
+.card-1024-SA
+{
+    background-position-x: -8px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-S2
+{
+    background-position-x: -86px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-S3
+{
+    background-position-x: -164px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-S4
+{
+    background-position-x: -242px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-S5
+{
+    background-position-x: -320px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-S6
+{
+    background-position-x: -398px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+.card-1024-S7
+{
+    background-position-x: -476px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+.card-1024-S8
+{
+    background-position-x: -555px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-S9
+{
+    background-position-x: -633px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+.card-1024-S10
+{
+    background-position-x: -711px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-SJ
+{
+    background-position-x: -789px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-SQ
+{
+    background-position-x: -867px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-SK
+{
+    background-position-x: -945px;
+    background-position-y: var(--card-1-row-background-position-y);
+}
+
+.card-1024-HA
+{
+    background-position-x: -8px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-H2
+{
+    background-position-x: -86px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-H3
+{
+    background-position-x: -164px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-H4
+{
+    background-position-x: -242px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-H5
+{
+    background-position-x: -320px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-H6
+{
+    background-position-x: -398px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+.card-1024-H7
+{
+    background-position-x: -476px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+.card-1024-H8
+{
+    background-position-x: -555px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-H9
+{
+    background-position-x: -633px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+.card-1024-H10
+{
+    background-position-x: -711px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-HJ
+{
+    background-position-x: -789px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-HQ
+{
+    background-position-x: -867px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-HK
+{
+    background-position-x: -945px;
+    background-position-y: var(--card-2-row-background-position-y);
+}
+
+.card-1024-DA
+{
+    background-position-x: -8px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-D2
+{
+    background-position-x: -86px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-D3
+{
+    background-position-x: -164px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-D4
+{
+    background-position-x: -242px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-D5
+{
+    background-position-x: -320px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-D6
+{
+    background-position-x: -398px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+.card-1024-D7
+{
+    background-position-x: -476px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+.card-1024-D8
+{
+    background-position-x: -555px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-D9
+{
+    background-position-x: -633px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+.card-1024-D10
+{
+    background-position-x: -711px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-DJ
+{
+    background-position-x: -789px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-DQ
+{
+    background-position-x: -867px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-DK
+{
+    background-position-x: -945px;
+    background-position-y: var(--card-3-row-background-position-y);
+}
+
+.card-1024-CA
+{
+    background-position-x: -8px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-C2
+{
+    background-position-x: -86px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-C3
+{
+    background-position-x: -164px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-C4
+{
+    background-position-x: -242px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-C5
+{
+    background-position-x: -320px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-C6
+{
+    background-position-x: -398px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+.card-1024-C7
+{
+    background-position-x: -476px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+.card-1024-C8
+{
+    background-position-x: -555px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-C9
+{
+    background-position-x: -633px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+.card-1024-C10
+{
+    background-position-x: -711px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-CJ
+{
+    background-position-x: -789px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-CQ
+{
+    background-position-x: -867px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
+
+.card-1024-CK
+{
+    background-position-x: -945px;
+    background-position-y: var(--card-4-row-background-position-y);
+}
