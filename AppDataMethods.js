@@ -122,5 +122,12 @@ exports.getAppDataMethods = function(AppData)
         return returnArray;
     }.bind({ methods: this, data: AppData });
 
+    this.updateRawData = function(rawData)
+    {
+        AppData = JSON.parse(rawData);
+
+        return AppData;
+    };
+
     return this;
 };

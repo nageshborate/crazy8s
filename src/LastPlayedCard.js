@@ -9,12 +9,12 @@ const AppDataMethods = require('../AppDataMethods').getAppDataMethods(AppData);
 
 const LastPlayedCard = () => (
 <>
+    <Typography variant="h5" align='center'>
+        Last Played Card
+    </Typography>
     <Container>
         <Card>
             <CardContent>
-                <Typography variant="h5" align='center'>
-                    Last Played Card
-                </Typography>
                 <Box display="flex" justifyContent="center">
                     <div className={ `card-1024 card-1024-${AppDataMethods.getLastPlayedCard()}` }></div>
                 </Box>

@@ -24,6 +24,13 @@ const PlayerDeck = () => (
                         </CardContent>
                     </Card>
         }) }
+        <Card style={{ margin: 5 }}>
+            <CardContent>
+                <Box display="flex" justifyContent="center">
+                    <Typography variant='button' align='center' className='card-1024 enabledCard' style={{ backgroundImage: 'none' }}>Pick card</Typography>
+                </Box>
+            </CardContent>
+        </Card>
     </Container>
 </>
 )

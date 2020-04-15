@@ -10,6 +10,8 @@ app.get('/', (req, res) => res.send("Welcome to Crazy8s"))
 
 app.get('/showRawAppData', (req, res) => res.send(AppData))
 
+app.post('/updateRawAppData', (req, res) => res.send(AppDataMethods.updateRawData(req.body)))
+
 app.get('/startNewGame', (req, res) => res.send(AppDataMethods.startNewGame()))
 
 app.get('/add/:personName', (req, res) => res.send(AppDataMethods.addPlayer(req.params.personName)))
