@@ -2,11 +2,14 @@ const path = require('path');
 
 module.exports =
 {
-    entry: "./src/App.js",
+    entry:
+    {
+        playerview: "./src/PlayerView.js"
+    },
     output:
     {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     },
     module:
     {

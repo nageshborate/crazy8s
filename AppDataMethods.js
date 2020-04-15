@@ -94,31 +94,33 @@ exports.getAppDataMethods = function(AppData)
 
     this.getPlayerCardsWithValidity = function(player)
     {
-        if (this.players.indexOf(player) >= 0)
-        {
-            let returnArray = [];
-            let lastPlayedCardSuit = this.getCardSuit(this.lastPlayedCard);
-            let lastPlayedCardValue = this.getCardValue(this.lastPlayedCard);
+        let { methods, data} = this;
+        let returnArray = [];
 
-            let playerIdx = this.players.indexOf(player);
-            let playerCards = this.playerCards[playerIdx];
+        if (data.players.indexOf(player) >= 0)
+        {
+            let lastPlayedCardSuit = methods.getCardSuit(data.lastPlayedCard);
+            let lastPlayedCardValue = methods.getCardValue(data.lastPlayedCard);
+
+            let playerIdx = data.players.indexOf(player);
+            let playerCards = data.playerCards[playerIdx];
             for (let idx = 0 ; idx < playerCards.length ; idx++)
             {
                 let playerCardIdx = playerCards[idx];
-                let playerCardSuit = this.getCardSuit(playerCardIdx);
-                let playerCardValue = this.getCardValue(playerCardIdx);
-                let isPlayerCardValue8 = this.getCardValue(playerCardIdx) === '8';
+                let playerCardSuit = methods.getCardSuit(playerCardIdx);
+                let playerCardValue = methods.getCardValue(playerCardIdx);
+                let isPlayerCardValue8 = methods.getCardValue(playerCardIdx) === '8';
 
                 returnArray.push(
                 {
                     cardIdx: playerCardIdx,
-                    card: this.getCard(playerCardIdx),
+                    card: methods.getCard(playerCardIdx),
                     valid: isPlayerCardValue8 || (lastPlayedCardSuit === playerCardSuit) || (lastPlayedCardValue === playerCardValue) || false
                 });
             }
-            return returnArray;
         }
-    }.bind(AppData);
+        return returnArray;
+    }.bind({ methods: this, data: AppData });
 
     return this;
 };

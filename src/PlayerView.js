@@ -4,7 +4,7 @@ import Header from './Header'
 import LastPlayedCard from './LastPlayedCard'
 import PlayerDeck from './PlayerDeck'
 
-const App = () =>
+const PlayerView = () =>
 ( <>
   <Header />
   <LastPlayedCard />
@@ -12,4 +12,4 @@ const App = () =>
   </>
 )
 
-ReactDOM.render(<App />, document.getElementById("root"))
+ReactDOM.render(<PlayerView />, document.getElementById("root"))

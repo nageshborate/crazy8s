@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import '../styles/card_1024.css';
+import '../styles/playerdeck.css';
 const AppDataMethods = require('../AppDataMethods').getAppDataMethods(AppData);
 
 const PlayerDeck = () => (
@@ -13,12 +14,12 @@ const PlayerDeck = () => (
         Your Cards
     </Typography>
     <Container style={{ display: "flex", flexWrap: "wrap" }}>
-        { AppData.playerCards[0].map(cardIdx =>
+        { AppDataMethods.getPlayerCardsWithValidity(selectedPlayer).map(({ card, valid }) =>
         {
             return  <Card style={{ margin: 5 }}>
                         <CardContent>
                             <Box display="flex" justifyContent="center">
-                                <div className={ `card-1024 card-1024-${AppDataMethods.getCard(cardIdx)}` }></div>
+                                <div className={ `card-1024 card-1024-${card} ${valid ? 'enabledCard' : 'disabledCard'}` }></div>
                             </Box>
                         </CardContent>
                     </Card>

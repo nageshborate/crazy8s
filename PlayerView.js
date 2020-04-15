@@ -1,4 +1,4 @@
-exports.getPlayerView = function(AppData)
+exports.getPlayerView = function(AppData, player)
 {
     return `
     <html lang="en">
@@ -11,8 +11,9 @@ exports.getPlayerView = function(AppData)
         <div id="root"></div>
         <script>
             var AppData = ${ JSON.stringify(AppData) };
+            var selectedPlayer = "${ player }";
         </script>
-        <script src="./dist/bundle.js"></script>
+        <script src="playerview.bundle.js"></script>
     </body>
     </html>
     `;
