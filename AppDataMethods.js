@@ -84,6 +84,7 @@ exports.getAppDataMethods = function(AppData)
             for (let idx = 0 ; idx < data.players.length ; idx++)
             {
                 data.playerCards[idx] = methods.generatePlayerCards();
+                data.playerCards[idx].sort();
             }
 
             data.lastPlayedCard = methods.generateLastPlayedCard();
@@ -111,20 +112,101 @@ exports.getAppDataMethods = function(AppData)
                 let playerCardValue = methods.getCardValue(playerCardIdx);
                 let isPlayerCardValue8 = methods.getCardValue(playerCardIdx) === '8';
 
-                returnArray.push(
+                if (data.changeSuit)
                 {
-                    cardIdx: playerCardIdx,
-                    card: methods.getCard(playerCardIdx),
-                    valid: isPlayerCardValue8 || (lastPlayedCardSuit === playerCardSuit) || (lastPlayedCardValue === playerCardValue) || false
-                });
+                    returnArray.push(
+                    {
+                        cardIdx: playerCardIdx,
+                        card: methods.getCard(playerCardIdx),
+                        valid: isPlayerCardValue8 || (data.changeSuit === playerCardSuit) || false
+                    });
+                }
+                else
+                {
+                    returnArray.push(
+                    {
+                        cardIdx: playerCardIdx,
+                        card: methods.getCard(playerCardIdx),
+                        valid: isPlayerCardValue8 || (lastPlayedCardSuit === playerCardSuit) || (lastPlayedCardValue === playerCardValue) || false
+                    });
+                }
             }
         }
         return returnArray;
     }.bind({ methods: this, data: AppData });
 
+    this.isPlayerTurn = function(player)
+    {
+        if (this.currentTurn != undefined && this.players && this.players.length > 0)
+        {
+            let playerNumber = this.players.indexOf(player);
+            if (playerNumber >= 0)
+            {
+                return playerNumber === this.currentTurn;
+            }
+        }
+        return false;
+    }.bind(AppData);
+
+    this.changeTurns = function()
+    {
+        if (this.currentTurn && this.players && this.players.length > 0)
+        {
+            this.currentTurn ++;
+            if (this.currentTurn >= this.players.length)
+                this.currentTurn = 0;
+        }
+
+        return this;
+    }.bind(AppData);
+
+    this.switchSuit = function(changeSuit)
+    {
+        this.changeSuit = changeSuit;
+    }.bind(AppData);
+
+    this.clearChangeSuit = function()
+    {
+        this.changeSuit = undefined;
+    }.bind(AppData);
+
+    this.cardPlayed = function(player, cardIdx)
+    {
+        if (this.players && this.players.length > 0)
+        {
+            let playerNumber = this.players.indexOf(player);
+            if (playerNumber >= 0)
+            {
+                let playerCardIdx = this.playerCards[playerNumber].indexOf(cardIdx);
+                if (playerCardIdx >= 0)
+                {
+                    this.playerCards[playerNumber].splice(playerCardIdx, 1);
+                    this.lastPlayedCard = cardIdx;
+                }
+            }
+        }
+    }.bind(AppData);
+
+    this.drawCard = function(player)
+    {
+        if (this.players && this.players.length > 0)
+        {
+            let playerNumber = this.players.indexOf(player);
+            if (playerNumber >= 0)
+            {
+                let playerCard = this.discardPile.shift();
+                this.playerCards[playerNumber].push(playerCard);
+                this.playerCards[playerNumber].sort();
+            }
+        }
+    }.bind(AppData);
+
     this.updateRawData = function(rawData)
     {
-        AppData = rawData;
+        for (key in rawData)
+        {
+            AppData[key] = rawData[key];
+        }
 
         return AppData;
     };
