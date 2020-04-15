@@ -124,7 +124,7 @@ exports.getAppDataMethods = function(AppData)
 
     this.updateRawData = function(rawData)
     {
-        AppData = JSON.parse(rawData);
+        AppData = rawData;
 
         return AppData;
     };
