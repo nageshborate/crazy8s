@@ -1,10 +1,18 @@
+const { AppData } = require('./AppData')
+const AppDataMethods = require('./AppDataMethods').getAppDataMethods(AppData)
 const express = require('express')
 const app = express()
 const port = 3000
-var path = require('path');
+const { getPlayerView } = require('./PlayerView');
 app.use('/dist', express.static('dist'))
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/index.html')))
+app.get('/', (req, res) => res.send(getPlayerView(AppData)))
+
+app.get('/showRawAppData', (req, res) => res.send(AppData))
+
+app.get('/startNewGame', (req, res) => res.send(AppDataMethods.startNewGame()))
+
+app.get('/add/:personName', (req, res) => res.send(AppDataMethods.addPlayer(req.params.personName)))
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 
