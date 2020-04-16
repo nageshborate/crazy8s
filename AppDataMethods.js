@@ -170,6 +170,11 @@ exports.getAppDataMethods = function(AppData)
         this.changeSuit = undefined;
     }.bind(AppData);
 
+    this.isChangeSuitSet = function()
+    {
+        return this.changeSuit != undefined;
+    }.bind(AppData);
+
     this.cardPlayed = function(player, cardIdx)
     {
         if (this.players && this.players.length > 0)

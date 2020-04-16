@@ -5,6 +5,8 @@ const app = express()
 const port = 3000
 const { getPlayerView } = require('./PlayerView');
 const bodyParser = require('body-parser');
+const nocache = require('nocache')
+app.use(nocache())
 app.use(bodyParser.json());
 app.use(express.static('dist', {}))
 

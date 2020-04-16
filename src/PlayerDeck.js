@@ -17,9 +17,20 @@ const PlayerDeck = ({ onCardPlayed }) =>
         const { cardIdx, valid } = this;
         if (valid)
         {
-            if (cardIdx > 0)
+            if (cardIdx >= 0)
             {
                 AppDataMethods.cardPlayed(selectedPlayer, cardIdx);
+
+                if (AppDataMethods.getCardValue(cardIdx) === '8')
+                {
+                    let newSuit = '';
+                    while (newSuit != 'S' && newSuit != 'C' && newSuit != 'H' && newSuit != 'D')
+                    {
+                        newSuit = prompt('Change suit to? (Valid values: S C H D) : ');
+                    }
+
+                    AppDataMethods.switchSuit(newSuit);
+                }
             }
             else
             {

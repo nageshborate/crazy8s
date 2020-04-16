@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import Header from './Header'
 import LastPlayedCard from './LastPlayedCard'
 import PlayerDeck from './PlayerDeck'
-const AppDataMethods = require('../AppDataMethods').getAppDataMethods(AppData);
+const { changeTurns, isChangeSuitSet, clearChangeSuit } = require('../AppDataMethods').getAppDataMethods(AppData);
 
 const PlayerView = () =>
 { 
@@ -11,7 +11,7 @@ const PlayerView = () =>
 
   const onCardPlayed = function()
   {
-    AppDataMethods.changeTurns();
+    changeTurns();
     updateDummyState({});
     fetch('/updateRawAppData', 
     {
@@ -22,6 +22,8 @@ const PlayerView = () =>
         'Content-Type': 'application/json'
       }
     });
+    if (isChangeSuitSet())
+      clearChangeSuit();
   };
 
   return <>

@@ -14,6 +14,12 @@ exports.getPlayerView = function(AppData, player)
             var selectedPlayer = "${ player }";
         </script>
         <script src="playerview.bundle.js"></script>
+        <script>
+            setTimeout(function()
+            {
+                window.location.href = window.location.href
+            }, 5000);
+        </script>
     </body>
     </html>
     `;
