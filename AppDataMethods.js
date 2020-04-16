@@ -150,7 +150,7 @@ exports.getAppDataMethods = function(AppData)
 
     this.changeTurns = function()
     {
-        if (this.currentTurn && this.players && this.players.length > 0)
+        if (this.currentTurn != undefined && this.players && this.players.length > 0)
         {
             this.currentTurn ++;
             if (this.currentTurn >= this.players.length)
