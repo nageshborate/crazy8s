@@ -42,6 +42,11 @@ exports.getAppDataMethods = function(AppData)
         return this;
     }.bind(AppData);
 
+    this.isDiscardPileEmpty = function()
+    {
+        return this.discardPile.length === 0;
+    }.bind(AppData);
+
     this.generateDiscardPile = function()
     {
         let discardPile = [];
@@ -62,6 +67,47 @@ exports.getAppDataMethods = function(AppData)
         this.discardPile = discardPile;
     }.bind(AppData);
 
+    this.generateDiscardPileWithoutPlayerCards = function()
+    {
+        let { methods, data } = this;
+        if (data.players && data.players.length > 0)
+        {
+            let count = 0;
+            let allPlayerCards = [];
+            for (let idx = 0 ; idx < data.players.length ; idx++)
+            {
+                count += data.playerCards[idx].length;
+                allPlayerCards = [...allPlayerCards, ...data.playerCards[idx]];
+            }
+            let isOneOfPlayerCards = function(cardIdx)
+            {
+                let allPlayerCards = this;
+                return allPlayerCards.indexOf(cardIdx) >= 0;
+            }.bind(allPlayerCards);
+
+            let discardPile = [data.lastPlayedCard];
+            data.lastPlayedCard = undefined;
+            for (let idx = 0 ; idx < count - 1 ; idx++)
+            {
+                let cardIdx;
+                while (true)
+                {
+                    cardIdx = getRandomIntInclusive(0, 51);
+                    if (isNumberAlreadyGenerated(cardIdx, discardPile))
+                        continue;
+                    if (isOneOfPlayerCards(cardIdx))
+                        continue;
+                    else
+                        break;
+                }
+                discardPile.push(cardIdx);
+            }
+
+            data.discardPile = discardPile;
+            data.lastPlayedCard = methods.generateLastPlayedCard();
+        }
+    }.bind({ methods: this, data: AppData });
+
     this.generatePlayerCards = function(count = 5)
     {
         return this.discardPile.splice(0, count);
@@ -72,12 +118,14 @@ exports.getAppDataMethods = function(AppData)
         return this.discardPile.shift();
     }.bind(AppData);
 
-    this.startNewGame = function()
+    this.startNewRound = function()
     {
-        let { methods, data} = this;
+        let { methods, data } = this;
 
         if (data.players && data.players.length > 0)
         {
+            methods.cleanEverythingExceptPoints();
+
             methods.generateDiscardPile();
             data.playerCards = {};
 
@@ -92,6 +140,50 @@ exports.getAppDataMethods = function(AppData)
 
         return data;
     }.bind({ methods: this, data: AppData });
+
+    this.startNewGame = function()
+    {
+        let { methods, data } = this;
+
+        if (data.players && data.players.length > 0)
+        {
+            methods.cleanEverything();
+
+            methods.generateDiscardPile();
+            data.playerCards = {};
+
+            for (let idx = 0 ; idx < data.players.length ; idx++)
+            {
+                data.playerCards[idx] = methods.generatePlayerCards();
+                data.playerCards[idx].sort();
+            }
+
+            data.lastPlayedCard = methods.generateLastPlayedCard();
+        }
+
+        return data;
+    }.bind({ methods: this, data: AppData });
+
+    this.cleanEverything = function()
+    {
+        this.playerCards = [];
+        this.lastPlayedCard = undefined;
+        this.discardPile = [];
+        this.currentTurn = 0;
+        this.changeSuit = undefined;
+        this.roundComplete = false;
+        this.playerPoints = [];
+    }.bind(AppData);
+
+    this.cleanEverythingExceptPoints = function()
+    {
+        this.playerCards = [];
+        this.lastPlayedCard = undefined;
+        this.discardPile = [];
+        this.currentTurn = 0;
+        this.changeSuit = undefined;
+        this.roundComplete = false;
+    }.bind(AppData);
 
     this.getPlayerCardsWithValidity = function(player)
     {
@@ -220,6 +312,8 @@ exports.getAppDataMethods = function(AppData)
             }
             return false;
         }.bind(this))();
+
+        return this.roundComplete;
     }.bind(AppData);
 
     this.calculatePlayerPoints = function()

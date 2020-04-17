@@ -15,9 +15,29 @@ class PlayerView extends Component
 
   onCardPlayed(AppData)
   {
-    const { changeTurns, checkRoundComplete, calculatePlayerPoints } = require('../AppDataMethods').getAppDataMethods(AppData);
+    const { 
+      changeTurns, 
+      checkRoundComplete, 
+      calculatePlayerPoints, 
+      startNewRound, 
+      isDiscardPileEmpty, 
+      generateDiscardPileWithoutPlayerCards 
+    } = require('../AppDataMethods').getAppDataMethods(AppData);
 
     changeTurns();
+
+    if (checkRoundComplete())
+    {
+      calculatePlayerPoints();
+      startNewRound();
+    }
+    else
+    {
+      if (isDiscardPileEmpty())
+      {
+        generateDiscardPileWithoutPlayerCards();
+      }
+    }
 
     this.setState(AppData);
     fetch('/updateRawAppData', 
