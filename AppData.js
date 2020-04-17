@@ -12,7 +12,9 @@ var AppData =
     lastPlayedCard: undefined,
     discardPile: [],
     currentTurn: 0,
-    changeSuit: undefined
+    changeSuit: undefined,
+    roundComplete: false,
+    playerPoints: []
 };
 
 exports.AppData = AppData;

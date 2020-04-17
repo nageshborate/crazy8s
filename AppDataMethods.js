@@ -206,6 +206,52 @@ exports.getAppDataMethods = function(AppData)
         }
     }.bind(AppData);
 
+    this.checkRoundComplete = function()
+    {
+        this.roundComplete = (function()
+        {
+            if (this.players && this.players.length > 0)
+            {
+                for (let playerNumber = 0 ; playerNumber < this.players.length ; playerNumber++)
+                {
+                    if (this.playerCards[playerNumber].length === 0)
+                        return true;
+                }
+            }
+            return false;
+        }.bind(this))();
+    }.bind(AppData);
+
+    this.calculatePlayerPoints = function()
+    {
+        if (this.players && this.players.length > 0)
+        {
+            this.playerPoints = [];
+            for (let playerNumber = 0 ; playerNumber < this.players.length ; playerNumber++)
+            {
+                let playerCards = this.playerCards[playerNumber];
+                let playerPoints = 0;
+                for (let playerCardIdx = 0 ; playerCardIdx < playerCards.length ; playerCardIdx++)
+                {
+                    let playerCardValue = this.getCardValue(playerCards[playerCardIdx]);
+
+                    if (playerCardValue === 'A')
+                        playerCardValue = 20;
+                    else if (playerCardValue === 'J')
+                        playerCardValue = 11;
+                    else if (playerCardValue === 'Q')
+                        playerCardValue = 12;
+                    else if (playerCardValue === 'K')
+                        playerCardValue = 13;
+                    else
+                        playerCardValue = Number(playerCardValue);
+                    playerPoints = playerPoints + (playerCardValue * -1);
+                }
+                this.playerPoints[playerNumber] = playerPoints;
+            }
+        }
+    }.bind(AppData);
+
     this.updateRawData = function(rawData)
     {
         for (key in rawData)

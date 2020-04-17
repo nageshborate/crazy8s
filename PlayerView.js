@@ -9,17 +9,8 @@ exports.getPlayerView = function(AppData, player)
     </head>
     <body>
         <div id="root"></div>
-        <script>
-            var AppData = ${ JSON.stringify(AppData) };
-            var selectedPlayer = "${ player }";
-        </script>
+        <input type=hidden id=selectedplayer value='${ player }' />
         <script src="playerview.bundle.js"></script>
-        <script>
-            setTimeout(function()
-            {
-                window.location.href = window.location.href
-            }, 5000);
-        </script>
     </body>
     </html>
     `;

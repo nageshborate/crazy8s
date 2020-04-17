@@ -1,18 +1,25 @@
-import React, { useState } from "react"
+import React, { Component } from "react"
 import ReactDOM from "react-dom"
 import Header from './Header'
 import LastPlayedCard from './LastPlayedCard'
 import PlayerDeck from './PlayerDeck'
-const { changeTurns, isChangeSuitSet, clearChangeSuit } = require('../AppDataMethods').getAppDataMethods(AppData);
 
-const PlayerView = () =>
-{ 
-  const [, updateDummyState] = useState({});
-
-  const onCardPlayed = function()
+class PlayerView extends Component
+{
+  constructor(props)
   {
+    super(props);
+    this.state = undefined;
+    this.onCardPlayed = this.onCardPlayed.bind(this);
+  }
+
+  onCardPlayed(AppData)
+  {
+    const { changeTurns, checkRoundComplete, calculatePlayerPoints } = require('../AppDataMethods').getAppDataMethods(AppData);
+
     changeTurns();
-    updateDummyState({});
+
+    this.setState(AppData);
     fetch('/updateRawAppData', 
     {
       method: 'POST',
@@ -22,15 +29,30 @@ const PlayerView = () =>
         'Content-Type': 'application/json'
       }
     });
-    if (isChangeSuitSet())
-      clearChangeSuit();
-  };
+  }
 
-  return <>
-  <Header />
-  <LastPlayedCard />
-  <PlayerDeck onCardPlayed = { onCardPlayed } />
-  </>
+  componentDidMount()
+  {
+    let obj = this;
+    let fetchDataAndUpdate = function()
+    {
+      fetch('/getRawAppData').then(response => response.json())
+        .then(data => {
+          obj.setState(data);
+        });
+    };
+    setInterval(fetchDataAndUpdate, 5000);
+    fetchDataAndUpdate();
+  }
+
+  render()
+  {
+    return <>
+    <Header />
+    <LastPlayedCard AppData = { this.state } />
+    <PlayerDeck AppData = { this.state } onCardPlayed = { this.onCardPlayed } selectedPlayer = { this.props.selectedPlayer } />
+    </>
+  }
 }
 
-ReactDOM.render(<PlayerView />, document.getElementById("root"))
+ReactDOM.render(<PlayerView selectedPlayer = { document.getElementById('selectedplayer').value } />, document.getElementById("root"));

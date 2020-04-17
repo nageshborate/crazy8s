@@ -5,10 +5,16 @@ import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import '../styles/card_1024.css';
+
+
+const LastPlayedCard = ({ AppData }) => {
+
+if (!(AppData))
+    return null;
+
 const AppDataMethods = require('../AppDataMethods').getAppDataMethods(AppData);
 
-const LastPlayedCard = () => (
-<>
+return <>
     <Typography variant="h5" align='center'>
         Last Played Card
     </Typography>
@@ -22,7 +28,7 @@ const LastPlayedCard = () => (
         </Card>
     </Container>
 </>
-)
+}
 
 export default LastPlayedCard;
 
