@@ -59,11 +59,6 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
     {
         cardPlayed(selectedPlayer, cardIdx);
 
-        if (isChangeSuitSet())
-        {
-            clearChangeSuit();
-        }
-
         if (getCardValue(cardIdx) === '8')
         {
             initiateHandleEightCard();

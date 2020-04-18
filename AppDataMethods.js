@@ -359,9 +359,11 @@ exports.getAppDataMethods = function(AppData)
             AppData[key] = rawData[key];
         }
 
-
         if (this.isDiscardPileEmpty())
             this.generateDiscardPileWithoutPlayerCards();
+
+        if (this.getCardValue(AppData.lastPlayedCard) !== '8' && this.isChangeSuitSet())
+            this.clearChangeSuit();
 
         return AppData;
     }.bind(this);
