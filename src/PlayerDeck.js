@@ -4,10 +4,11 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import SelectSuitDialog from './SelectSuitDialog';
 import '../styles/card_1024.css';
 import '../styles/playerdeck.css';
 
-const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer }) =>
+const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) =>
 {
     if (!(AppData))
         return null;
@@ -19,6 +20,8 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer }) =>
         </Typography>
         </>;
 
+    let selectSuitDialog = React.createRef();;
+
     const {
         isPlayerTurn,
         cardPlayed, 
@@ -27,7 +30,8 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer }) =>
         getCardValue, 
         switchSuit,
         drawCard,
-        getPlayerCardsWithValidity
+        getPlayerCardsWithValidity,
+        getCardSuit
     } = require('../AppDataMethods').getAppDataMethods(AppData);
 
     const isCurrentPlayerTurn = isPlayerTurn(selectedPlayer);
@@ -37,36 +41,71 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer }) =>
         const { cardIdx, valid } = this;
         if (valid)
         {
+            stopDataRefresh();
+
             if (cardIdx >= 0)
             {
-                cardPlayed(selectedPlayer, cardIdx);
-
-                if (isChangeSuitSet())
-                    clearChangeSuit();
-
-                if (getCardValue(cardIdx) === '8')
-                {
-                    let newSuit = '';
-                    while (newSuit != 'S' && newSuit != 'C' && newSuit != 'H' && newSuit != 'D')
-                    {
-                        newSuit = prompt('Change suit to? (Valid values: S C H D) : ');
-                    }
-
-                    switchSuit(newSuit);
-                }
+                handleCardPlay(cardIdx);
             }
             else
             {
                 drawCard(selectedPlayer);
+                onCardPlayed(AppData);
             }
         }
+    };
 
+    const handleCardPlay = function(cardIdx)
+    {
+        cardPlayed(selectedPlayer, cardIdx);
+
+        console.log('after cardPlayed ', AppData);
+
+        if (isChangeSuitSet())
+        {
+            clearChangeSuit();
+            console.log('suit cleared', AppData);
+        }
+
+        if (getCardValue(cardIdx) === '8')
+        {
+            initiateHandleEightCard();
+        }
+        else
+            handleNonEightCard();
+    };
+
+    const handleNonEightCard = function()
+    {
         onCardPlayed(AppData);
     };
 
+    const initiateHandleEightCard = function()
+    {
+        selectSuitDialog.current.handleClickOpen();
+    };
+
+    const completeHandleEightCard = function(newSuit)
+    {
+        console.log('newSuit ', newSuit);
+
+        switchSuit(newSuit);
+        onCardPlayed(AppData);
+
+        console.log('after onCardPlayed ', AppData);
+    };
+
+    const getCurrentSuit = function()
+    {
+        const suit = isChangeSuitSet() ? AppData.changeSuit : getCardSuit(AppData.lastPlayedCard);
+        return (suit === 'C') ? ('&clubs;') : ((suit === 'D') ? ('&diams;') : ((suit === 'H') ? ('&hearts;') : ('&spades;')));
+    }
+
+    console.log('getCurrentSuit() ', getCurrentSuit());
+
 return <>
     <Typography variant="h5" align='center'>
-        Your Cards
+        { `Your Cards [Current Turn: ${ AppData.players[AppData.currentTurn] }]` }<span dangerouslySetInnerHTML = { { __html : `&nbsp;&nbsp;[Current Suit: ${ getCurrentSuit() }]` } }></span>
     </Typography>
     <Container style={{ display: "flex", flexWrap: "wrap" }}>
         { getPlayerCardsWithValidity(selectedPlayer).map((obj) =>
@@ -90,6 +129,7 @@ return <>
             </CardContent>
         </Card>
     </Container>
+    <SelectSuitDialog ref = { selectSuitDialog } handleSuitChange = { completeHandleEightCard } />
 </>
 }
 

@@ -4,6 +4,8 @@ import Header from './Header'
 import LastPlayedCard from './LastPlayedCard'
 import PlayerDeck from './PlayerDeck'
 
+const dataRefreshInterval = 5000;
+
 class PlayerView extends Component
 {
   constructor(props)
@@ -11,10 +13,14 @@ class PlayerView extends Component
     super(props);
     this.state = undefined;
     this.onCardPlayed = this.onCardPlayed.bind(this);
+    this.fetchDataAndUpdate = this.fetchDataAndUpdate.bind(this);
+    this.startDataRefresh = this.startDataRefresh.bind(this);
+    this.stopDataRefresh = this.stopDataRefresh.bind(this);
   }
 
   onCardPlayed(AppData)
   {
+    this.stopDataRefresh();
     const { 
       changeTurns, 
       checkRoundComplete, 
@@ -29,7 +35,7 @@ class PlayerView extends Component
     if (checkRoundComplete())
     {
       calculatePlayerPoints();
-      startNewRound();
+      //startNewRound();
     }
     else
     {
@@ -49,20 +55,33 @@ class PlayerView extends Component
         'Content-Type': 'application/json'
       }
     });
+
+    this.startDataRefresh();
   }
 
   componentDidMount()
   {
+    this.fetchDataAndUpdate();
+    this.startDataRefresh();
+  }
+
+  fetchDataAndUpdate()
+  {
     let obj = this;
-    let fetchDataAndUpdate = function()
-    {
-      fetch('/getRawAppData').then(response => response.json())
-        .then(data => {
-          obj.setState(data);
-        });
-    };
-    setInterval(fetchDataAndUpdate, 5000);
-    fetchDataAndUpdate();
+    fetch('/getRawAppData').then(response => response.json())
+      .then(data => {
+        obj.setState(data);
+      });
+  }
+
+  startDataRefresh()
+  {
+    this.timerId = setInterval(this.fetchDataAndUpdate, dataRefreshInterval);
+  }
+
+  stopDataRefresh()
+  {
+    clearInterval(this.timerId);
   }
 
   render()
@@ -70,7 +89,7 @@ class PlayerView extends Component
     return <>
     <Header />
     <LastPlayedCard AppData = { this.state } />
-    <PlayerDeck AppData = { this.state } onCardPlayed = { this.onCardPlayed } selectedPlayer = { this.props.selectedPlayer } />
+    <PlayerDeck AppData = { this.state } onCardPlayed = { this.onCardPlayed } stopDataRefresh = { this.stopDataRefresh } selectedPlayer = { this.props.selectedPlayer } />
     </>
   }
 }

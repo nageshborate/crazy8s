@@ -318,16 +318,18 @@ exports.getAppDataMethods = function(AppData)
 
     this.calculatePlayerPoints = function()
     {
-        if (this.players && this.players.length > 0)
+        let { methods, data} = this;
+
+        if (data.players && data.players.length > 0)
         {
-            this.playerPoints = [];
-            for (let playerNumber = 0 ; playerNumber < this.players.length ; playerNumber++)
+            data.playerPoints = [];
+            for (let playerNumber = 0 ; playerNumber < data.players.length ; playerNumber++)
             {
-                let playerCards = this.playerCards[playerNumber];
+                let playerCards = data.playerCards[playerNumber];
                 let playerPoints = 0;
                 for (let playerCardIdx = 0 ; playerCardIdx < playerCards.length ; playerCardIdx++)
                 {
-                    let playerCardValue = this.getCardValue(playerCards[playerCardIdx]);
+                    let playerCardValue = methods.getCardValue(playerCards[playerCardIdx]);
 
                     if (playerCardValue === 'A')
                         playerCardValue = 20;
@@ -341,10 +343,10 @@ exports.getAppDataMethods = function(AppData)
                         playerCardValue = Number(playerCardValue);
                     playerPoints = playerPoints + (playerCardValue * -1);
                 }
-                this.playerPoints[playerNumber] = playerPoints;
+                data.playerPoints[playerNumber] = playerPoints;
             }
         }
-    }.bind(AppData);
+    }.bind({ methods: this, data: AppData });
 
     this.updateRawData = function(rawData)
     {
