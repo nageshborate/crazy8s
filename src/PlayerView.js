@@ -36,17 +36,21 @@ class PlayerView extends Component
     }
 
     this.setState({test: new Date().getTime()});
-    fetch('/updateRawAppData', 
-    {
-      method: 'POST',
-      body: JSON.stringify(AppData),
-      headers:
-      {
-        'Content-Type': 'application/json'
-      }
-    });
 
-    this.startDataRefresh();
+    (async function()
+    {
+      await fetch('/updateRawAppData', 
+      {
+        method: 'POST',
+        body: JSON.stringify(AppData),
+        headers:
+        {
+          'Content-Type': 'application/json'
+        }
+      });
+    })();
+
+    this.startDataRefresh(false);
   }
 
   componentDidMount()
@@ -64,10 +68,12 @@ class PlayerView extends Component
       });
   }
 
-  startDataRefresh()
+  startDataRefresh(immediate = true)
   {
     this.timerId = setInterval(this.fetchDataAndUpdate, dataRefreshInterval);
-    this.fetchDataAndUpdate();
+
+    if (immediate)
+      this.fetchDataAndUpdate();
   }
 
   stopDataRefresh()
