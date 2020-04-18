@@ -278,6 +278,7 @@ exports.getAppDataMethods = function(AppData)
                 if (playerCardIdx >= 0)
                 {
                     this.playerCards[playerNumber].splice(playerCardIdx, 1);
+                    this.playerCards[playerNumber].sort();
                     this.lastPlayedCard = cardIdx;
                 }
             }
