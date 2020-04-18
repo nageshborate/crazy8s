@@ -15,7 +15,7 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
 
     if (AppData.roundComplete)
         return <>
-        <Typography variant="h5" align='center'>
+        <Typography variant="h5">
             End of round
         </Typography>
         </>;
@@ -43,7 +43,7 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
         {
             stopDataRefresh();
 
-            if (cardIdx >= 0)
+            if (cardIdx>= 0)
             {
                 handleCardPlay(cardIdx);
             }
@@ -101,12 +101,21 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
         return (suit === 'C') ? ('&clubs;') : ((suit === 'D') ? ('&diams;') : ((suit === 'H') ? ('&hearts;') : ('&spades;')));
     }
 
-    console.log('getCurrentSuit() ', getCurrentSuit());
-
 return <>
-    <Typography variant="h5" align='center'>
-        { `Your Cards [Current Turn: ${ AppData.players[AppData.currentTurn] }]` }<span dangerouslySetInnerHTML = { { __html : `&nbsp;&nbsp;[Current Suit: ${ getCurrentSuit() }]` } }></span>
+    <Container style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+    <Typography variant="h5">
+        { `Your Cards` }
     </Typography>
+    <span dangerouslySetInnerHTML = { { __html : `&nbsp;&nbsp;` } }></span>
+    <Typography variant="h5">
+        { `[Current Turn: ${ AppData.players[AppData.currentTurn] }]` }
+    </Typography>
+    <span dangerouslySetInnerHTML = { { __html : `&nbsp;&nbsp;` } }></span>
+    <Typography variant="h5">
+        <span dangerouslySetInnerHTML = { { __html : `[Current Suit: ${ getCurrentSuit() }]` } }></span>
+    </Typography>
+    </Container>
+    <br />
     <Container style={{ display: "flex", flexWrap: "wrap" }}>
         { getPlayerCardsWithValidity(selectedPlayer).map((obj) =>
         {
@@ -124,7 +133,7 @@ return <>
         <Card onClick = { onClick.bind({ cardIdx: -1, card: 'newCard', valid: isCurrentPlayerTurn}) } style={{ margin: 5 }}>
             <CardContent>
                 <Box display="flex" justifyContent="center">
-                    <Typography variant='button' align='center' className={ `card-1024 ${isCurrentPlayerTurn ? 'enabledCard' : 'disabledCard'}` } style={{ backgroundImage: 'none' }}>Pick card</Typography>
+                    <Typography variant='button'  className={ `card-1024 ${isCurrentPlayerTurn ? 'enabledCard' : 'disabledCard'}` } style={{ backgroundImage: 'none' }}>Pick card</Typography>
                 </Box>
             </CardContent>
         </Card>

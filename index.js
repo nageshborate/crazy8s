@@ -18,9 +18,22 @@ app.post('/updateRawAppData', (req, res) => res.send(AppDataMethods.updateRawDat
 
 app.get('/startNewGame', (req, res) => res.send(AppDataMethods.startNewGame()))
 
+app.get('/startNewRound', (req, res) => res.send(AppDataMethods.startNewRound()))
+
 app.get('/add/:personName', (req, res) => res.send(AppDataMethods.addPlayer(req.params.personName)))
 
 app.get('/:personName', (req, res) => res.send(getPlayerView(AppData, req.params.personName)))
+
+app.post('/generateDiscardPileWithoutPlayerCards', (req, res) => res.send((function(inAppData)
+{
+    AppDataMethods.updateRawData(inAppData);
+    AppDataMethods.generateDiscardPileWithoutPlayerCards();
+    return AppData;
+
+    //const { generateDiscardPileWithoutPlayerCards } = require('./AppDataMethods').getAppDataMethods(inAppData);
+    //generateDiscardPileWithoutPlayerCards();
+    //return inAppData;
+})(req.body)))
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import Header from './Header'
 import LastPlayedCard from './LastPlayedCard'
 import PlayerDeck from './PlayerDeck'
+import PointsTableDialog from './PointsTableDialog'
 
 const dataRefreshInterval = 5000;
 
@@ -37,13 +38,43 @@ class PlayerView extends Component
       calculatePlayerPoints();
       //startNewRound();
     }
-    else
+    /*else
     {
       if (isDiscardPileEmpty())
       {
-        generateDiscardPileWithoutPlayerCards();
+        //generateDiscardPileWithoutPlayerCards();
+        /*fetch('/generateDiscardPileWithoutPlayerCards', 
+        {
+          method: 'POST',
+          body: JSON.stringify(AppData),
+          headers:
+          {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => response.json())
+        .then(data => {
+          AppData = data;
+        });
+
+
+        (async () => {
+          const response = await fetch('/generateDiscardPileWithoutPlayerCards', 
+          {
+            method: 'POST',
+            body: JSON.stringify(AppData),
+            headers:
+            {
+              'Content-Type': 'application/json'
+            }
+          });
+          const json = await response.json();
+          console.log(json);
+          AppData = json;
+      })();
+
+
       }
-    }
+    }*/
 
     this.setState(AppData);
     fetch('/updateRawAppData', 
@@ -61,7 +92,6 @@ class PlayerView extends Component
 
   componentDidMount()
   {
-    this.fetchDataAndUpdate();
     this.startDataRefresh();
   }
 
@@ -77,6 +107,7 @@ class PlayerView extends Component
   startDataRefresh()
   {
     this.timerId = setInterval(this.fetchDataAndUpdate, dataRefreshInterval);
+    this.fetchDataAndUpdate();
   }
 
   stopDataRefresh()
@@ -86,10 +117,16 @@ class PlayerView extends Component
 
   render()
   {
+    if (!(this.state))
+        return null;
+
     return <>
     <Header />
     <LastPlayedCard AppData = { this.state } />
+    <hr />
     <PlayerDeck AppData = { this.state } onCardPlayed = { this.onCardPlayed } stopDataRefresh = { this.stopDataRefresh } selectedPlayer = { this.props.selectedPlayer } />
+    <br />
+    <PointsTableDialog AppData = { this.state } />
     </>
   }
 }

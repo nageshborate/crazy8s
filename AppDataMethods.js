@@ -72,11 +72,9 @@ exports.getAppDataMethods = function(AppData)
         let { methods, data } = this;
         if (data.players && data.players.length > 0)
         {
-            let count = 0;
             let allPlayerCards = [];
             for (let idx = 0 ; idx < data.players.length ; idx++)
             {
-                count += data.playerCards[idx].length;
                 allPlayerCards = [...allPlayerCards, ...data.playerCards[idx]];
             }
             let isOneOfPlayerCards = function(cardIdx)
@@ -87,7 +85,8 @@ exports.getAppDataMethods = function(AppData)
 
             let discardPile = [data.lastPlayedCard];
             data.lastPlayedCard = undefined;
-            for (let idx = 0 ; idx < count - 1 ; idx++)
+            console.log(discardPile, (52 - allPlayerCards.length ));
+            while (discardPile.length < (52 - allPlayerCards.length ))
             {
                 let cardIdx;
                 while (true)
@@ -101,6 +100,7 @@ exports.getAppDataMethods = function(AppData)
                         break;
                 }
                 discardPile.push(cardIdx);
+                console.log(discardPile, discardPile.length);
             }
 
             data.discardPile = discardPile;
@@ -108,7 +108,7 @@ exports.getAppDataMethods = function(AppData)
         }
     }.bind({ methods: this, data: AppData });
 
-    this.generatePlayerCards = function(count = 5)
+    this.generatePlayerCards = function(count = 3)
     {
         return this.discardPile.splice(0, count);
     }.bind(AppData);
@@ -131,8 +131,7 @@ exports.getAppDataMethods = function(AppData)
 
             for (let idx = 0 ; idx < data.players.length ; idx++)
             {
-                data.playerCards[idx] = methods.generatePlayerCards();
-                data.playerCards[idx].sort();
+                data.playerCards[idx] = methods.generatePlayerCards().sort((a, b) => a-b);
             }
 
             data.lastPlayedCard = methods.generateLastPlayedCard();
@@ -154,8 +153,7 @@ exports.getAppDataMethods = function(AppData)
 
             for (let idx = 0 ; idx < data.players.length ; idx++)
             {
-                data.playerCards[idx] = methods.generatePlayerCards();
-                data.playerCards[idx].sort();
+                data.playerCards[idx] = methods.generatePlayerCards().sort((a, b) => a-b);
             }
 
             data.lastPlayedCard = methods.generateLastPlayedCard();
@@ -278,7 +276,7 @@ exports.getAppDataMethods = function(AppData)
                 if (playerCardIdx >= 0)
                 {
                     this.playerCards[playerNumber].splice(playerCardIdx, 1);
-                    this.playerCards[playerNumber].sort();
+                    this.playerCards[playerNumber] = this.playerCards[playerNumber].sort((a, b) => a-b);
                     this.lastPlayedCard = cardIdx;
                 }
             }
@@ -294,7 +292,7 @@ exports.getAppDataMethods = function(AppData)
             {
                 let playerCard = this.discardPile.shift();
                 this.playerCards[playerNumber].push(playerCard);
-                this.playerCards[playerNumber].sort();
+                this.playerCards[playerNumber].sort((a, b) => a-b);
             }
         }
     }.bind(AppData);
@@ -323,29 +321,36 @@ exports.getAppDataMethods = function(AppData)
 
         if (data.players && data.players.length > 0)
         {
-            data.playerPoints = [];
+            let roundWinnerPlayerNumber = -1;
+            let playerPoints = 0;
             for (let playerNumber = 0 ; playerNumber < data.players.length ; playerNumber++)
             {
                 let playerCards = data.playerCards[playerNumber];
-                let playerPoints = 0;
-                for (let playerCardIdx = 0 ; playerCardIdx < playerCards.length ; playerCardIdx++)
-                {
-                    let playerCardValue = methods.getCardValue(playerCards[playerCardIdx]);
 
-                    if (playerCardValue === 'A')
-                        playerCardValue = 20;
-                    else if (playerCardValue === 'J')
-                        playerCardValue = 11;
-                    else if (playerCardValue === 'Q')
-                        playerCardValue = 12;
-                    else if (playerCardValue === 'K')
-                        playerCardValue = 13;
-                    else
-                        playerCardValue = Number(playerCardValue);
-                    playerPoints = playerPoints + (playerCardValue * -1);
+                if (playerCards.length > 0)
+                {
+                    for (let playerCardIdx = 0 ; playerCardIdx < playerCards.length ; playerCardIdx++)
+                    {
+                        let playerCardValue = methods.getCardValue(playerCards[playerCardIdx]);
+
+                        if (playerCardValue === 'A')
+                            playerCardValue = 20;
+                        else if (playerCardValue === 'J')
+                            playerCardValue = 11;
+                        else if (playerCardValue === 'Q')
+                            playerCardValue = 12;
+                        else if (playerCardValue === 'K')
+                            playerCardValue = 13;
+                        else
+                            playerCardValue = Number(playerCardValue);
+                        playerPoints = playerPoints + playerCardValue;
+                    }
                 }
-                data.playerPoints[playerNumber] = playerPoints;
+                else
+                    roundWinnerPlayerNumber = playerNumber;
             }
+            if (roundWinnerPlayerNumber >= 0)
+                data.playerPoints[roundWinnerPlayerNumber] = data.playerPoints[roundWinnerPlayerNumber] ? (data.playerPoints[roundWinnerPlayerNumber] + playerPoints) :playerPoints;
         }
     }.bind({ methods: this, data: AppData });
 
@@ -356,8 +361,15 @@ exports.getAppDataMethods = function(AppData)
             AppData[key] = rawData[key];
         }
 
+        console.log(`generateDiscardPileWithoutPlayerCards before`, AppData.discardPile);
+
+        if (this.isDiscardPileEmpty())
+            this.generateDiscardPileWithoutPlayerCards();
+
+        console.log(`generateDiscardPileWithoutPlayerCards after`, AppData.discardPile);
+
         return AppData;
-    };
+    }.bind(this);
 
     return this;
 };
