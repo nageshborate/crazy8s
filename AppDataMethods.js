@@ -85,7 +85,6 @@ exports.getAppDataMethods = function(AppData)
 
             let discardPile = [data.lastPlayedCard];
             data.lastPlayedCard = undefined;
-            console.log(discardPile, (52 - allPlayerCards.length ));
             while (discardPile.length < (52 - allPlayerCards.length ))
             {
                 let cardIdx;
@@ -100,7 +99,6 @@ exports.getAppDataMethods = function(AppData)
                         break;
                 }
                 discardPile.push(cardIdx);
-                console.log(discardPile, discardPile.length);
             }
 
             data.discardPile = discardPile;
@@ -361,12 +359,9 @@ exports.getAppDataMethods = function(AppData)
             AppData[key] = rawData[key];
         }
 
-        console.log(`generateDiscardPileWithoutPlayerCards before`, AppData.discardPile);
 
         if (this.isDiscardPileEmpty())
             this.generateDiscardPileWithoutPlayerCards();
-
-        console.log(`generateDiscardPileWithoutPlayerCards after`, AppData.discardPile);
 
         return AppData;
     }.bind(this);

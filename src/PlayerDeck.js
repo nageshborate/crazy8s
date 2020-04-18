@@ -59,12 +59,9 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
     {
         cardPlayed(selectedPlayer, cardIdx);
 
-        console.log('after cardPlayed ', AppData);
-
         if (isChangeSuitSet())
         {
             clearChangeSuit();
-            console.log('suit cleared', AppData);
         }
 
         if (getCardValue(cardIdx) === '8')
@@ -87,12 +84,8 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
 
     const completeHandleEightCard = function(newSuit)
     {
-        console.log('newSuit ', newSuit);
-
         switchSuit(newSuit);
         onCardPlayed(AppData);
-
-        console.log('after onCardPlayed ', AppData);
     };
 
     const getCurrentSuit = function()
