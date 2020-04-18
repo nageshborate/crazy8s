@@ -106,7 +106,7 @@ exports.getAppDataMethods = function(AppData)
         }
     }.bind({ methods: this, data: AppData });
 
-    this.generatePlayerCards = function(count = 3)
+    this.generatePlayerCards = function(count = 5)
     {
         return this.discardPile.splice(0, count);
     }.bind(AppData);
