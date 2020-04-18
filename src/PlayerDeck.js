@@ -8,7 +8,7 @@ import SelectSuitDialog from './SelectSuitDialog';
 import '../styles/card_1024.css';
 import '../styles/playerdeck.css';
 
-const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) =>
+const PlayerDeck = ({ onCardPlayed, selectedPlayer, stopDataRefresh }) =>
 {
     if (!(AppData))
         return null;
@@ -50,7 +50,7 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
             else
             {
                 drawCard(selectedPlayer);
-                onCardPlayed(AppData);
+                onCardPlayed();
             }
         }
     };
@@ -69,7 +69,7 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
 
     const handleNonEightCard = function()
     {
-        onCardPlayed(AppData);
+        onCardPlayed();
     };
 
     const initiateHandleEightCard = function()
@@ -80,7 +80,7 @@ const PlayerDeck = ({ AppData, onCardPlayed, selectedPlayer, stopDataRefresh }) 
     const completeHandleEightCard = function(newSuit)
     {
         switchSuit(newSuit);
-        onCardPlayed(AppData);
+        onCardPlayed();
     };
 
     const getCurrentSuit = function()

@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import '../styles/card_1024.css';
 
 
-const LastPlayedCard = ({ AppData }) => {
+const LastPlayedCard = () => {
 
 if (!(AppData))
     return null;

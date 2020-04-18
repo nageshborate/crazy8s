@@ -19,16 +19,13 @@ class PlayerView extends Component
     this.stopDataRefresh = this.stopDataRefresh.bind(this);
   }
 
-  onCardPlayed(AppData)
+  onCardPlayed()
   {
     this.stopDataRefresh();
     const { 
       changeTurns, 
       checkRoundComplete, 
-      calculatePlayerPoints, 
-      startNewRound, 
-      isDiscardPileEmpty, 
-      generateDiscardPileWithoutPlayerCards 
+      calculatePlayerPoints
     } = require('../AppDataMethods').getAppDataMethods(AppData);
 
     changeTurns();
@@ -36,47 +33,9 @@ class PlayerView extends Component
     if (checkRoundComplete())
     {
       calculatePlayerPoints();
-      //startNewRound();
     }
-    /*else
-    {
-      if (isDiscardPileEmpty())
-      {
-        //generateDiscardPileWithoutPlayerCards();
-        /*fetch('/generateDiscardPileWithoutPlayerCards', 
-        {
-          method: 'POST',
-          body: JSON.stringify(AppData),
-          headers:
-          {
-            'Content-Type': 'application/json'
-          }
-        }).then(response => response.json())
-        .then(data => {
-          AppData = data;
-        });
 
-
-        (async () => {
-          const response = await fetch('/generateDiscardPileWithoutPlayerCards', 
-          {
-            method: 'POST',
-            body: JSON.stringify(AppData),
-            headers:
-            {
-              'Content-Type': 'application/json'
-            }
-          });
-          const json = await response.json();
-          console.log(json);
-          AppData = json;
-      })();
-
-
-      }
-    }*/
-
-    this.setState(AppData);
+    this.setState({test: new Date().getTime()});
     fetch('/updateRawAppData', 
     {
       method: 'POST',
@@ -100,7 +59,8 @@ class PlayerView extends Component
     let obj = this;
     fetch('/getRawAppData').then(response => response.json())
       .then(data => {
-        obj.setState(data);
+        AppData = data; 
+        obj.setState({test: new Date().getTime()});
       });
   }
 
@@ -122,11 +82,11 @@ class PlayerView extends Component
 
     return <>
     <Header />
-    <LastPlayedCard AppData = { this.state } />
+    <LastPlayedCard />
     <hr />
-    <PlayerDeck AppData = { this.state } onCardPlayed = { this.onCardPlayed } stopDataRefresh = { this.stopDataRefresh } selectedPlayer = { this.props.selectedPlayer } />
+    <PlayerDeck onCardPlayed = { this.onCardPlayed } stopDataRefresh = { this.stopDataRefresh } selectedPlayer = { this.props.selectedPlayer } />
     <br />
-    <PointsTableDialog AppData = { this.state } />
+    <PointsTableDialog />
     </>
   }
 }

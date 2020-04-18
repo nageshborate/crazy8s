@@ -20,7 +20,12 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
-  export default function PointsTableDialog({ AppData:{ players, playerPoints } }) {
+  export default function PointsTableDialog() {
+
+    if (!(AppData))
+        return null;
+
+    let { players, playerPoints } = AppData;
 
     if (players && players.length === 0)
         return null;

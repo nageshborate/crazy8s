@@ -11,6 +11,7 @@ exports.getPlayerView = function(AppData, player)
         <div id="root"></div>
         <input type=hidden id=selectedplayer value='${ player }' />
         <script src="playerview.bundle.js"></script>
+        <script>var AppData = undefined;</script>
     </body>
     </html>
     `;
